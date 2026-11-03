@@ -1,5 +1,7 @@
 # Student Record Management API
 
+**Author:** Mahantesh R. Patted (USN 23BTRCT066), B.Tech CSE, Jain (Deemed-to-be) University, Bengaluru
+
 Implementation Assignment 1 (REST APIs using Spring Boot). The full test report with screenshots is in [`docs/Student-Record-API-Report.pdf`](docs/Student-Record-API-Report.pdf) (also `.docx`), and the raw generated evidence is in [`REPORT.md`](REPORT.md).
 
 A Spring Boot REST API that stores student records (generated id, unique USN, name, department, semester 1–8) in an H2 database.
@@ -100,7 +102,7 @@ On Windows PowerShell, use `curl.exe` and put the JSON in a file (`-d "@body.jso
 ```bash
 # Create (201)
 curl -i -X POST http://localhost:8080/students -H "Content-Type: application/json" \
-  -d '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"CSE","semester":5}'
+  -d '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"CSE","semester":5}'
 
 # List all / filter (200)
 curl -i http://localhost:8080/students
@@ -119,7 +121,7 @@ curl -i -X POST http://localhost:8080/students -H "Content-Type: application/jso
 
 # Update (200)
 curl -i -X PUT http://localhost:8080/students/4 -H "Content-Type: application/json" \
-  -d '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"AIML","semester":6}'
+  -d '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"AIML","semester":6}'
 
 # Delete (204), then lookup (404)
 curl -i -X DELETE http://localhost:8080/students/4

@@ -19,7 +19,7 @@
       "request": {
         "method": "POST",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"CSE\",\n  \"semester\": 5\n}" },
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Mahantesh R. Patted\",\n  \"department\": \"CSE\",\n  \"semester\": 5\n}" },
         "url": "{{baseUrl}}/students"
       },
       "event": [{ "listen": "test", "script": { "exec": [
@@ -75,7 +75,7 @@
       "request": {
         "method": "PUT",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Mahantesh R. Patted\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
         "url": "{{baseUrl}}/students/{{studentId}}"
       },
       "event": [{ "listen": "test", "script": { "exec": ["pm.test('200', () => pm.response.to.have.status(200));"] } }]
@@ -85,7 +85,7 @@
       "request": {
         "method": "PUT",
         "header": [{ "key": "Content-Type", "value": "application/json" }],
-        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS001\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS001\",\n  \"name\": \"Mahantesh R. Patted\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
         "url": "{{baseUrl}}/students/{{studentId}}"
       },
       "event": [{ "listen": "test", "script": { "exec": ["pm.test('409', () => pm.response.to.have.status(409));"] } }]

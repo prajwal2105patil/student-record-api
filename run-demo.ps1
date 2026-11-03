@@ -237,7 +237,7 @@ Add-Report @('## 2. Create, retrieve, update, delete, with error cases', '')
 Say '==> Scenarios'
 Api '2.1 List all students (3 seeded records)' GET '/students'; Expect 200
 
-Api '2.2 Valid creation' POST '/students' '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"CSE","semester":5}'; Expect 201
+Api '2.2 Valid creation' POST '/students' '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"CSE","semester":5}'; Expect 201
 $NewId = $null
 try { $NewId = (ConvertFrom-Json $script:LastBody).id } catch { }
 if (-not $NewId) { Fail 'Create did not return an id; cannot continue' }
@@ -247,8 +247,8 @@ Api '2.4 Duplicate USN on create (lower-case USN still collides)' POST '/student
 Api '2.5 Invalid semester (9)' POST '/students' '{"usn":"1JS23CS102","name":"Test User","department":"CSE","semester":9}'; Expect 400
 Api '2.6 Blank USN, blank name and semester 0' POST '/students' '{"usn":"  ","name":"","department":"CSE","semester":0}'; Expect 400
 Api '2.7 Department filtering (?department=CSE)' GET '/students?department=CSE'; Expect 200
-Api '2.8 Update (PUT) the created student' PUT "/students/$NewId" '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"AIML","semester":6}'; Expect 200
-Api '2.9 Update with a USN owned by another student' PUT "/students/$NewId" '{"usn":"1JS23CS001","name":"Prajwal Patil","department":"AIML","semester":6}'; Expect 409
+Api '2.8 Update (PUT) the created student' PUT "/students/$NewId" '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"AIML","semester":6}'; Expect 200
+Api '2.9 Update with a USN owned by another student' PUT "/students/$NewId" '{"usn":"1JS23CS001","name":"Mahantesh R. Patted","department":"AIML","semester":6}'; Expect 409
 Api '2.10 PUT on a missing id does not create it' PUT '/students/99999' '{"usn":"1JS23CS999","name":"Ghost","department":"CSE","semester":1}'; Expect 404
 Api '2.11 Retrieve after failed updates (2.9 and 2.10 changed nothing)' GET "/students/$NewId"; Expect 200
 Api '2.12 Delete the created student' DELETE "/students/$NewId"; Expect 204

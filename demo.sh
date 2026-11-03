@@ -97,7 +97,7 @@ md "## 2. Create → retrieve → update → delete, with error cases" ""
 echo "==> Scenarios"
 call "2.1 List all students (3 seeded records)" GET "/students"; expect 200
 
-call "2.2 Valid creation" POST "/students" '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"CSE","semester":5}'; expect 201
+call "2.2 Valid creation" POST "/students" '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"CSE","semester":5}'; expect 201
 NEW_ID=$(id_of "$LAST_BODY")
 
 call "2.3 Retrieve the created student" GET "/students/$NEW_ID"; expect 200
@@ -110,9 +110,9 @@ call "2.6 Blank USN, blank name and semester 0" POST "/students" '{"usn":"  ","n
 
 call "2.7 Department filtering (?department=CSE)" GET "/students?department=CSE"; expect 200
 
-call "2.8 Update (PUT) the created student" PUT "/students/$NEW_ID" '{"usn":"1JS23CS101","name":"Prajwal Patil","department":"AIML","semester":6}'; expect 200
+call "2.8 Update (PUT) the created student" PUT "/students/$NEW_ID" '{"usn":"1JS23CS101","name":"Mahantesh R. Patted","department":"AIML","semester":6}'; expect 200
 
-call "2.9 Update with a USN owned by another student" PUT "/students/$NEW_ID" '{"usn":"1JS23CS001","name":"Prajwal Patil","department":"AIML","semester":6}'; expect 409
+call "2.9 Update with a USN owned by another student" PUT "/students/$NEW_ID" '{"usn":"1JS23CS001","name":"Mahantesh R. Patted","department":"AIML","semester":6}'; expect 409
 
 call "2.10 PUT on a missing id does not create it" PUT "/students/99999" '{"usn":"1JS23CS999","name":"Ghost","department":"CSE","semester":1}'; expect 404
 

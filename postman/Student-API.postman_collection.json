@@ -1,0 +1,114 @@
+{
+  "info": {
+    "name": "Student Record API",
+    "description": "Run in order. 'Create student' stores the new id in {{studentId}}.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:8080" },
+    { "key": "studentId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "01 List all students",
+      "request": { "method": "GET", "url": "{{baseUrl}}/students" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('200', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "02 Create student (201)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"CSE\",\n  \"semester\": 5\n}" },
+        "url": "{{baseUrl}}/students"
+      },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('201', () => pm.response.to.have.status(201));",
+        "pm.collectionVariables.set('studentId', pm.response.json().id);"
+      ] } }]
+    },
+    {
+      "name": "03 Get student by id (200)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/students/{{studentId}}" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('200', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "04 Duplicate USN (409)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Someone Else\",\n  \"department\": \"ISE\",\n  \"semester\": 3\n}" },
+        "url": "{{baseUrl}}/students"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('409', () => pm.response.to.have.status(409));"] } }]
+    },
+    {
+      "name": "05 Invalid semester (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS102\",\n  \"name\": \"Test User\",\n  \"department\": \"CSE\",\n  \"semester\": 9\n}" },
+        "url": "{{baseUrl}}/students"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('400', () => pm.response.to.have.status(400));"] } }]
+    },
+    {
+      "name": "06 Blank fields (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \" \",\n  \"name\": \"\",\n  \"department\": \"CSE\",\n  \"semester\": 0\n}" },
+        "url": "{{baseUrl}}/students"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('400', () => pm.response.to.have.status(400));"] } }]
+    },
+    {
+      "name": "07 Filter by department (200)",
+      "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/students?department=CSE", "host": ["{{baseUrl}}"], "path": ["students"], "query": [{ "key": "department", "value": "CSE" }] } },
+      "event": [{ "listen": "test", "script": { "exec": [
+        "pm.test('200', () => pm.response.to.have.status(200));",
+        "pm.test('all CSE', () => pm.response.json().forEach(s => pm.expect(s.department).to.eql('CSE')));"
+      ] } }]
+    },
+    {
+      "name": "08 Update student (200)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS101\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
+        "url": "{{baseUrl}}/students/{{studentId}}"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('200', () => pm.response.to.have.status(200));"] } }]
+    },
+    {
+      "name": "09 Update to another student's USN (409)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS001\",\n  \"name\": \"Prajwal Patil\",\n  \"department\": \"AIML\",\n  \"semester\": 6\n}" },
+        "url": "{{baseUrl}}/students/{{studentId}}"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('409', () => pm.response.to.have.status(409));"] } }]
+    },
+    {
+      "name": "10 PUT missing id does not create (404)",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"usn\": \"1JS23CS999\",\n  \"name\": \"Ghost\",\n  \"department\": \"CSE\",\n  \"semester\": 1\n}" },
+        "url": "{{baseUrl}}/students/99999"
+      },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('404', () => pm.response.to.have.status(404));"] } }]
+    },
+    {
+      "name": "11 Delete student (204)",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/students/{{studentId}}" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('204', () => pm.response.to.have.status(204));"] } }]
+    },
+    {
+      "name": "12 Get deleted student (404)",
+      "request": { "method": "GET", "url": "{{baseUrl}}/students/{{studentId}}" },
+      "event": [{ "listen": "test", "script": { "exec": ["pm.test('404', () => pm.response.to.have.status(404));"] } }]
+    }
+  ]
+}

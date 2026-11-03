@@ -1,0 +1,29 @@
+==> Using JDK at C:\Program Files\Microsoft\jdk-21.0.11.10-hotspot\
+==> Using Maven at C:\Users\Prajwal\Documents\student-api\.tools\apache-maven-3.9.11\bin\mvn.cmd
+==> Building (first build downloads dependencies, give it a few minutes)...
+==> Built target\student-api-0.0.1-SNAPSHOT.jar
+==> Run 1: java -jar target\student-api-0.0.1-SNAPSHOT.jar
+==> Scenarios
+  2.1 List all students (3 seeded records)                       200
+  2.2 Valid creation                                             201
+  2.3 Retrieve the created student                               200
+  2.4 Duplicate USN on create (lower-case USN still collides)    409
+  2.5 Invalid semester (9)                                       400
+  2.6 Blank USN, blank name and semester 0                       400
+  2.7 Department filtering (?department=CSE)                     200
+  2.8 Update (PUT) the created student                           200
+  2.9 Update with a USN owned by another student                 409
+  2.10 PUT on a missing id does not create it                    404
+  2.11 Retrieve after failed updates (2.9 and 2.10 changed nothing) 200
+  2.12 Delete the created student                                204
+  2.13 Lookup after deletion                                     404
+  2.14 Non-numeric id                                            400
+  2.15 Final list: only the seeds remain, no invalid request changed data 200
+  H2 query captured
+  4.1 Create a marker record before restarting                   201
+==> Stopping and restarting the JAR
+  4.2 Marker record after restart                                200
+  4.3 Full list after restart                                    200
+  4.4 Cleanup: delete the marker                                 204
+
+RESULT: PASS - all scenarios returned the expected status codes. Report: REPORT.md

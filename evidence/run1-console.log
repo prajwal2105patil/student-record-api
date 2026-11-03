@@ -1,0 +1,55 @@
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.0)
+
+2026-11-03 20:20:45.305 INFO  [main] c.e.studentapi.StudentApiApplication - Starting StudentApiApplication v0.0.1-SNAPSHOT using Java 21.0.11 with PID 30120 (C:\Users\Prajwal\Documents\student-api\target\student-api-0.0.1-SNAPSHOT.jar started by Prajwal in C:\Users\Prajwal\Documents\student-api)
+2026-11-03 20:20:45.307 INFO  [main] c.e.studentapi.StudentApiApplication - No active profile set, falling back to 1 default profile: "default"
+2026-11-03 20:20:46.009 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-11-03 20:20:46.055 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 36 ms. Found 1 JPA repository interface.
+2026-11-03 20:20:46.509 INFO  [main] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2026-11-03 20:20:46.523 INFO  [main] o.apache.catalina.core.StandardService - Starting service [Tomcat]
+2026-11-03 20:20:46.523 INFO  [main] org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.41]
+2026-11-03 20:20:46.550 INFO  [main] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2026-11-03 20:20:46.551 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1206 ms
+2026-11-03 20:20:46.765 INFO  [main] o.hibernate.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-11-03 20:20:46.832 INFO  [main] org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.15.Final
+2026-11-03 20:20:46.883 INFO  [main] o.h.c.internal.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2026-11-03 20:20:47.221 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-11-03 20:20:47.258 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2026-11-03 20:20:47.548 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection conn1: url=jdbc:h2:file:./data/studentdb user=SA
+2026-11-03 20:20:47.549 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2026-11-03 20:20:47.589 INFO  [main] org.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-11-03 20:20:48.180 INFO  [main] o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-11-03 20:20:48.228 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-11-03 20:20:48.961 INFO  [main] o.s.b.a.h2.H2ConsoleAutoConfiguration - H2 console available at '/h2-console'. Database available at 'jdbc:h2:file:./data/studentdb'
+2026-11-03 20:20:49.065 INFO  [main] o.s.b.w.embedded.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2026-11-03 20:20:49.088 INFO  [main] c.e.studentapi.StudentApiApplication - Started StudentApiApplication in 4.269 seconds (process running for 4.676)
+2026-11-03 20:20:49.457 INFO  [main] c.example.studentapi.config.DataSeeder - Seed data: inserted=3, skipped(already present)=0, total students now=3
+2026-11-03 20:20:49.460 INFO  [main] c.e.studentapi.StudentApiApplication - Student API ready on port 8080 | datasource=jdbc:h2:file:./data/studentdb;AUTO_SERVER=TRUE;WRITE_DELAY=0
+2026-11-03 20:20:50.493 INFO  [http-nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-11-03 20:20:50.493 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2026-11-03 20:20:50.494 INFO  [http-nio-8080-exec-1] o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2026-11-03 20:20:50.757 INFO  [http-nio-8080-exec-4] c.e.studentapi.service.StudentService - Student created: id=4, usn=1JS23CS101
+2026-11-03 20:20:50.860 WARN  [http-nio-8080-exec-7] c.e.s.exception.GlobalExceptionHandler - Request failed: POST /students -> 409 Conflict: A student with USN 1JS23CS101 already exists
+2026-11-03 20:20:50.890 WARN  [http-nio-8080-exec-10] c.e.s.exception.GlobalExceptionHandler - Request failed: POST /students -> 400 Bad Request: Validation failed for fields [semester]
+2026-11-03 20:20:50.917 WARN  [http-nio-8080-exec-1] c.e.s.exception.GlobalExceptionHandler - Request failed: POST /students -> 400 Bad Request: Validation failed for fields [usn, name, semester]
+2026-11-03 20:20:50.992 INFO  [http-nio-8080-exec-4] c.e.studentapi.service.StudentService - Student updated: id=4, usn=1JS23CS101
+2026-11-03 20:20:51.018 WARN  [http-nio-8080-exec-6] c.e.s.exception.GlobalExceptionHandler - Request failed: PUT /students/4 -> 409 Conflict: A student with USN 1JS23CS001 already exists
+2026-11-03 20:20:51.050 WARN  [http-nio-8080-exec-7] c.e.s.exception.GlobalExceptionHandler - Request failed: PUT /students/99999 -> 404 Not Found: Student with id 99999 not found
+2026-11-03 20:20:51.105 INFO  [http-nio-8080-exec-2] c.e.studentapi.service.StudentService - Student deleted: id=4, usn=1JS23CS101
+2026-11-03 20:20:51.129 WARN  [http-nio-8080-exec-4] c.e.s.exception.GlobalExceptionHandler - Request failed: GET /students/4 -> 404 Not Found: Student with id 4 not found
+2026-11-03 20:20:51.157 WARN  [http-nio-8080-exec-6] c.e.s.exception.GlobalExceptionHandler - Request failed: GET /students/abc -> 400 Bad Request: Parameter 'id' has an invalid value
+2026-11-03 20:20:51.424 INFO  [http-nio-8080-exec-9] c.e.studentapi.service.StudentService - Student created: id=5, usn=1JS23CS555

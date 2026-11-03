@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Student API Test Console</title>
+<style>
+  :root {
+    --bg: #f4f5f7; --panel: #ffffff; --line: #d9dce1; --ink: #1f2328; --muted: #656d76;
+    --accent: #ff6c37; --get: #0f7b3f; --post: #a35a00; --put: #1f5fbf; --delete: #b42318;
+    --ok: #0f7b3f; --warn: #a35a00; --err: #b42318; --code: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink);
+         font: 14px/1.45 "Segoe UI", system-ui, -apple-system, sans-serif; }
+  header { background: #24292f; color: #fff; padding: 10px 18px; display: flex; align-items: center; gap: 10px; }
+  header b { font-weight: 600; }
+  header .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  header .host { margin-left: auto; color: #c9d1d9; font-size: 12px; }
+  main { padding: 16px 18px; max-width: 1100px; }
+  .title { font-weight: 600; margin: 0 0 10px; font-size: 15px; }
+  .bar { display: flex; gap: 8px; }
+  select, input, textarea, button { font: inherit; }
+  select { width: 110px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; font-weight: 700; background: var(--panel); }
+  input { flex: 1; padding: 8px 10px; border: 1px solid var(--line); border-radius: 6px; font-family: Consolas, "Cascadia Mono", monospace; background: var(--panel); }
+  button { background: #0b65c2; color: #fff; border: 0; border-radius: 6px; padding: 8px 22px; font-weight: 600; cursor: pointer; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; margin-top: 12px; }
+  .panel h3 { margin: 0; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 12px;
+              text-transform: uppercase; letter-spacing: .04em; color: var(--muted); display: flex; gap: 16px; align-items: center; }
+  textarea { width: 100%; min-height: 64px; border: 0; padding: 10px 12px; resize: vertical;
+             font-family: Consolas, "Cascadia Mono", monospace; font-size: 13px; background: var(--code); border-radius: 0 0 8px 8px; }
+  pre { margin: 0; padding: 10px 12px; font-family: Consolas, "Cascadia Mono", monospace; font-size: 13px;
+        white-space: pre-wrap; word-break: break-word; background: var(--code); border-radius: 0 0 8px 8px; min-height: 40px; }
+  .status { font-weight: 700; text-transform: none; letter-spacing: 0; font-size: 13px; }
+  .s2 { color: var(--ok); } .s4 { color: var(--warn); } .s5 { color: var(--err); }
+  .meta { color: var(--muted); text-transform: none; letter-spacing: 0; font-weight: 400; font-size: 12px; }
+  .m-GET { color: var(--get); } .m-POST { color: var(--post); } .m-PUT { color: var(--put); } .m-DELETE { color: var(--delete); }
+  .hdrs { color: var(--muted); font-size: 12px; padding: 6px 12px 0; font-family: Consolas, monospace; }
+  footer { color: var(--muted); font-size: 12px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<header><span class="dot"></span><b>Student API Test Console</b><span class="host" id="host"></span></header>
+<main>
+  <p class="title" id="title">Request</p>
+  <div class="bar">
+    <select id="method" aria-label="HTTP method">
+      <option>GET</option><option>POST</option><option>PUT</option><option>DELETE</option>
+    </select>
+    <input id="url" aria-label="Request URL" value="/students">
+    <button id="send" type="button">Send</button>
+  </div>
+
+  <div class="panel">
+    <h3>Request body <span class="meta">Content-Type: application/json</span></h3>
+    <textarea id="body" aria-label="Request body" spellcheck="false"></textarea>
+  </div>
+
+  <div class="panel">
+    <h3>Response
+      <span class="status" id="status">-</span>
+      <span class="meta" id="timing"></span>
+    </h3>
+    <div class="hdrs" id="headers"></div>
+    <pre id="response">Press Send to call the API.</pre>
+  </div>
+  <footer id="footer">Requests are sent live to this running Spring Boot application.</footer>
+</main>
+<script>
+  // Prefill from the query string, e.g. ?method=POST&url=/students&body=...&title=...
+  const q = new URLSearchParams(location.search);
+  const $ = id => document.getElementById(id);
+  $('host').textContent = location.origin;
+  if (q.get('method')) $('method').value = q.get('method').toUpperCase();
+  if (q.get('url')) $('url').value = q.get('url');
+  if (q.get('body')) $('body').value = q.get('body');
+  if (q.get('title')) { $('title').textContent = q.get('title'); document.title = q.get('title'); }
+
+  function colourMethod() { $('method').className = 'm-' + $('method').value; }
+  $('method').addEventListener('change', colourMethod); colourMethod();
+
+  function pretty(text) {
+    try { return JSON.stringify(JSON.parse(text), null, 2); } catch (e) { return text; }
+  }
+
+  async function send() {
+    const method = $('method').value;
+    const url = $('url').value.trim();
+    const hasBody = (method === 'POST' || method === 'PUT') && $('body').value.trim() !== '';
+    $('status').textContent = 'Sending...'; $('status').className = 'status';
+    const started = performance.now();
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: hasBody ? { 'Content-Type': 'application/json' } : {},
+        body: hasBody ? $('body').value : undefined
+      });
+      const text = await res.text();
+      const ms = Math.round(performance.now() - started);
+      $('status').textContent = res.status + ' ' + (res.statusText || '');
+      $('status').className = 'status s' + String(res.status)[0];
+      $('timing').textContent = ms + ' ms  |  ' + new Blob([text]).size + ' B';
+      const shown = ['content-type', 'location'].filter(h => res.headers.get(h))
+        .map(h => h.replace(/\b\w/g, c => c.toUpperCase()) + ': ' + res.headers.get(h));
+      $('headers').textContent = shown.join('   ');
+      $('response').textContent = text ? pretty(text) : '(empty body)';
+      $('footer').textContent = 'Sent ' + method + ' ' + location.origin + url + ' at ' + new Date().toLocaleString();
+    } catch (e) {
+      $('status').textContent = 'Request failed'; $('status').className = 'status s5';
+      $('response').textContent = String(e);
+    }
+  }
+  $('send').addEventListener('click', send);
+</script>
+</body>
+</html>
